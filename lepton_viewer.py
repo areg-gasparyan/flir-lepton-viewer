@@ -1,7 +1,6 @@
 import cv2
 import argparse
 import numpy as np
-import argparse
 
 
 def getColorMap(colorFilter):
@@ -31,9 +30,9 @@ def getColorMap(colorFilter):
         return cv2.COLORMAP_HOT
     return None
 
-    
-def run(device, width, height, colorFilter):
-    cap = cv2.VideoCapture(4)
+
+def run(device, width, height, colorMap):
+    cap = cv2.VideoCapture(device)
     originalWidth = cap.get(3)
     originalHeight = cap.get(4)
     print("Original resolution:", originalWidth, originalHeight)
@@ -49,7 +48,7 @@ def run(device, width, height, colorFilter):
         frame = cv2.resize(frame, (width, height))
         frame = 255 * (frame - frame.min()) / (frame.max() - frame.min())
         frame = frame.astype(np.uint8)
-        cm = getColorMap(colorFilter)
+        cm = getColorMap(colorMap)
         if cm != None:
             frame = cv2.applyColorMap(frame, cm)
 
@@ -60,20 +59,20 @@ def run(device, width, height, colorFilter):
     cap.release()
     cv2.destroyAllWindows()
 
-
+    
 def main():
 
     try:
-        parser = argparse.ArgumentParser(description='Lepton viewer is the python script in Linux environment for filter and display thermal camera images.')
+        parser = argparse.ArgumentParser(description='This is a fast and easy python script in Linux envirenment for configur and capture FLIR Lepton 3.5 thermal camera images.')
         parser.add_argument("--device", type=str, default="/dev/video0", help="Input thermal camera device path --device=/dev/video0")
 
         parser.add_argument("--width", type=int, default=640, help="Resize width. Default is --width=640")
         parser.add_argument("--height", type=int, default=480, help="Resize height. Default is --height=480")
 
-        parser.add_argument("--color-filter", type=str, choices=["COLORMAP_GRAY", "COLORMAP_AUTUMN", "COLORMAP_BONE", "COLORMAP_JET",
+        parser.add_argument("--color-map", type=str, choices=["COLORMAP_GRAY", "COLORMAP_AUTUMN", "COLORMAP_BONE", "COLORMAP_JET",
                                                            "COLORMAP_WINTER", "COLORMAP_RAINBOW", "COLORMAP_OCEAN", "COLORMAP_SUMMER",
                                                            "COLORMAP_SPRING", "COLORMAP_COOL", "COLORMAP_HSV", "COLORMAP_PINK", "COLORMAP_HOT"],
-                                                           default="COLORMAP_GRAY", help="Image filter --color-filter=COLORMAP_BONE")
+                                                           default="COLORMAP_GRAY", help="Map corresponding color --color-map=COLORMAP_BONE")
 
 
         opt = parser.parse_known_args()[0]
@@ -85,9 +84,9 @@ def main():
     device = args.device
     width = args.width
     height = args.height
-    colorFilter = args.color_filter
-    run(device, width, height, colorFilter)
+    colorMap = args.color_map
+    run(device, width, height, colorMap)
 
 
 if __name__ == "__main__":
-    main()
+    main()                                                                                                                                                                              92,1          Bot
