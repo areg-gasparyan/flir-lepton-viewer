@@ -1,4 +1,4 @@
-# lepton-thermal-camera
+# Flir Lepton 3.5 thermal imaging camera viewer
 
 The lepton_viewer.py is the fast and easy python script in the Linux environment for configure and capture FLIR Lepton 3.5 thermal camera images.
 
